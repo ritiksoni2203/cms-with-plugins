@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Editor from "../components/Editor";
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('../components/Editor'), { ssr: false });
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
@@ -22,9 +23,24 @@ const validationSchema = Yup.object().shape({
 
 export default function EditorPage() {
   const [post, setPost] = useState<Post | null>(null);
-  const [preview, setPreview] = useState(false); // Preview mode state
+  const [preview, setPreview] = useState(false);
 
   const router = useRouter();
+  
+  return (
+    <Suspense fallback={<div>Loading editor...</div>}>
+       <EditorComponent 
+        router={router} 
+        post={post} 
+        setPost={setPost} 
+        preview={preview} 
+        setPreview={setPreview} 
+      />
+    </Suspense>
+  );
+}
+
+function EditorComponent({ router, post, setPost, preview, setPreview }: any) {
   const id = useSearchParams().get("id");
 
   const savePost = async (values: Post) => {
@@ -124,7 +140,7 @@ export default function EditorPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setPreview((prev) => !prev)}
+                  onClick={() => setPreview((prev: any) => !prev)}
                   className="bg-gray-600 text-white p-2 rounded-lg"
                 >
                   {preview ? "Close Preview" : "Preview"}
