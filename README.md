@@ -51,14 +51,14 @@ This CMS enables content creation and management through a simple user interface
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/cms-with-plugins.git
+   git clone https://github.com/ritiksoni2203/cms-with-plugins
    cd cms-with-plugins
 
 2. Install dependencies:
 npm install
 
 3. Set up your database:
-DATABASE_URL=your-database-connection-url
+DATABASE_URL="postgresql://postgres:KDmqxkDUgAKkqcudcRuBbWlWDJWJZAYH@autorack.proxy.rlwy.net:27619/railway"
 
 Running Locally
 
